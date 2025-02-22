@@ -5,20 +5,14 @@ echo "Configuração do container MySQL para o projeto Mooca Solidária"
 read -p "Informe o nome do container (padrão: mooca-banco-prod): " MYSQL_CONTAINER_NAME
 CONTAINER_NAME=${CONTAINER_NAME:-mooca-banco-prod}
 
-read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-db:latest): " MYSQL_IMAGE
-CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-db:latest}
-
-read -p "Informe a senha do root (padrão: urubu100): " MYSQL_ROOT_PASSWORD
-MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-urubu100}
-
-read -p "Informe o nome do usuário (padrão: usuario): " MYSQL_USER
-MYSQL_USER=${MYSQL_USER:-usuario}
-
-read -p "Informe a senha do usuário (padrão: urubu100): " MYSQL_PASSWORD
-MYSQL_PASSWORD=${MYSQL_PASSWORD:-urubu100}
+read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-front:latest): " MYSQL_IMAGE
+CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-front:latest}
 
 read -p "Informe a porta para exposição (padrão: 3306): " CONTAINER_PORT
 CONTAINER_PORT=${CONTAINER_PORT:-3306}
+
+read -p "Informe o endereço da API Back-End (padrão: localhost:8080): " BASE_URL
+BASE_URL=${BASE_URL:-localhost:8080}
 
 DOCKER_USER="moocasolidaria"
 if ! docker info | grep -q "Username: $DOCKER_USER"; then
@@ -48,12 +42,9 @@ echo "Baixando a imagem do MySQL: ${CONTAINER_IMAGE}..."
 docker pull $CONTAINER_IMAGE
 
 echo "Iniciando o container MySQL..."
-docker run -d \
-    --name $CONTAINER_NAME \
-    -e MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD \
-    -e MYSQL_USER=$MYSQL_USER \
-    -e MYSQL_PASSWORD=$MYSQL_PASSWORD \
-    -p $MYSQL_PORT:3306 \
-    $CONTAINER_IMAGE
+docker run -d -p $CONTAINER_PORT:3000 \
+  -e BASE_URL=$BASE_URL \
+  --name $CONTAINER_NAME \
+  $CONTAINER_IMAGE
 
 echo "Container $CONTAINER_NAME iniciado na porta $CONTAINER_PORT"
