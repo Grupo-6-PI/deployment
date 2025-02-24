@@ -31,7 +31,7 @@ if ! docker info | grep -q "Username: $DOCKER_USER"; then
             exit 1
         fi
     else
-        echo "O login é necessário para baixar a imagem do banco. Saindo..."
+        echo "O login é necessário para baixar a imagem. Saindo..."
         exit 1
     fi
 else
