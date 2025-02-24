@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "Configuração do container MySQL para o projeto Mooca Solidária"
+echo "Configuração do container Node para o projeto Mooca Solidária"
 
 read -p "Informe o nome do container (padrão: mooca-front-prod): " CONTAINER_NAME
 CONTAINER_NAME=${CONTAINER_NAME:-mooca-front-prod}
