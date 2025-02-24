@@ -2,14 +2,14 @@
 
 echo "Configuração do container MySQL para o projeto Mooca Solidária"
 
-read -p "Informe o nome do container (padrão: mooca-banco-prod): " MYSQL_CONTAINER_NAME
-CONTAINER_NAME=${CONTAINER_NAME:-mooca-banco-prod}
+read -p "Informe o nome do container (padrão: mooca-front-prod): " CONTAINER_NAME
+CONTAINER_NAME=${CONTAINER_NAME:-mooca-front-prod}
 
-read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-front:latest): " MYSQL_IMAGE
+read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-front:latest): " CONTAINER_IMAGE
 CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-front:latest}
 
-read -p "Informe a porta para exposição (padrão: 3306): " CONTAINER_PORT
-CONTAINER_PORT=${CONTAINER_PORT:-3306}
+read -p "Informe a porta para exposição (padrão: 3000): " CONTAINER_PORT
+CONTAINER_PORT=${CONTAINER_PORT:-3000}
 
 read -p "Informe o endereço da API Back-End (padrão: localhost:8080): " BASE_URL
 BASE_URL=${BASE_URL:-localhost:8080}
@@ -38,10 +38,10 @@ if docker ps -a --format '{{.Names}}' | grep -Eq "^${CONTAINER_NAME}\$"; then
     docker rm $CONTAINER_NAME
 fi
 
-echo "Baixando a imagem do MySQL: ${CONTAINER_IMAGE}..."
+echo "Baixando a imagem do Container: ${CONTAINER_IMAGE}..."
 docker pull $CONTAINER_IMAGE
 
-echo "Iniciando o container MySQL..."
+echo "Iniciando o container..."
 docker run -d -p $CONTAINER_PORT:3000 \
   -e BASE_URL=$BASE_URL \
   --name $CONTAINER_NAME \
