@@ -2,14 +2,13 @@
 
 echo "Configuração do container Spring Boot para o projeto Mooca Solidária"
 
-# Solicita informações ao usuário
 read -p "Informe o nome do container (padrão: mooca-back-prod): " CONTAINER_NAME
 CONTAINER_NAME=${CONTAINER_NAME:-mooca-back-prod}
 
 read -p "Informe a porta para exposição (padrão: 8080): " CONTAINER_PORT
 CONTAINER_PORT=${CONTAINER_PORT:-8080}
 
-read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-back:latest): " MYSQL_IMAGE
+read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-back:latest): " CONTAINER_IMAGE
 CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-back:latest}
 
 read -p "Informe o usuário do banco de dados (padrão: root): " USUARIO_BANCO
@@ -45,10 +44,10 @@ if docker ps -a --format '{{.Names}}' | grep -Eq "^${CONTAINER_NAME}\$"; then
     docker rm $CONTAINER_NAME
 fi
 
-echo "Baixando a imagem do SpringBoot: ${CONTAINER_IMAGE}..."
+echo "Baixando a imagem do Container: ${CONTAINER_IMAGE}..."
 docker pull $CONTAINER_IMAGE
 
-echo "Iniciando o container Spring Boot..."
+echo "Iniciando o container..."
 docker run -d \
   -p $CONTAINER_PORT:8080 \
   -e USUARIO_BANCO=$USUARIO_BANCO \
