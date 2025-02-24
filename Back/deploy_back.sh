@@ -12,13 +12,15 @@ read -p "Informe a imagem do Container (padrão: moocasolidaria/mooca-solidaria-
 CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-back:latest}
 
 read -p "Informe o usuário do banco de dados (padrão: root): " USUARIO_BANCO
-USUARIO_BANCO=${USUARIO_BANCO:-root}
+USUARIO_BANCO=${USUARIO_BANCO:-"root"}
 
 read -p "Informe a senha do banco de dados (padrão: root): " SENHA_BANCO
-SENHA_BANCO=${SENHA_BANCO:-root}
+SENHA_BANCO=${SENHA_BANCO:-"root"}
 
 read -p "Informe o host do banco de dados (padrão: localhost): " HOST_BANCO
-HOST_BANCO=${HOST_BANCO:-localhost}
+HOST_BANCO=${HOST_BANCO:-"localhost"}
+
+MYSQL_URL="jdbc:mysql://$HOST_BANCO:3306/TFG?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC"
 
 DOCKER_USER="moocasolidaria"
 if ! docker info | grep -q "Username: $DOCKER_USER"; then
@@ -52,7 +54,7 @@ docker run -d \
   -p $CONTAINER_PORT:8080 \
   -e USUARIO_BANCO=$USUARIO_BANCO \
   -e SENHA_BANCO=$SENHA_BANCO \
-  -e HOST_BANCO=$HOST_BANCO \
+  -e HOST_BANCO=$MYSQL_URL \
   --name $CONTAINER_NAME \
   $CONTAINER_IMAGE
 
