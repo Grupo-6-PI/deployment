@@ -11,8 +11,8 @@ CONTAINER_IMAGE=${CONTAINER_IMAGE:-moocasolidaria/mooca-solidaria-front:latest}
 read -p "Informe a porta para exposição (padrão: 3000): " CONTAINER_PORT
 CONTAINER_PORT=${CONTAINER_PORT:-3000}
 
-read -p "Informe o endereço da API Back-End (padrão: localhost:8080): " BASE_URL
-BASE_URL=${BASE_URL:-localhost:8080}
+read -p "Informe o endereço da API Back-End (padrão: localhost:8080/api): " BASE_URL
+BASE_URL=${BASE_URL:-localhost:8080/api}
 
 DOCKER_USER="moocasolidaria"
 if ! docker info | grep -q "Username: $DOCKER_USER"; then
